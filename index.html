@@ -77,6 +77,27 @@
     letter-spacing:0.5px;
   }
 
+  #milestone{
+    position:fixed; inset:0;
+    z-index:11;
+    display:flex; align-items:center; justify-content:center;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 1.2s ease;
+  }
+  #milestone.show{ opacity:1; }
+  #milestone h1{
+    font-size:4rem;
+    color:var(--gold);
+    text-shadow:0 0 30px rgba(255,210,127,0.7), 0 0 60px rgba(255,111,165,0.4);
+    letter-spacing:2px;
+    text-align:center;
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @media (max-width:600px){
+    #milestone h1{ font-size:2.4rem; }
+  }
+
   #message{
     position:fixed; inset:0;
     z-index:10;
@@ -156,16 +177,20 @@
 
 <div id="sky"></div>
 <canvas id="stars" width="1486" height="731"></canvas>
-<div class="moon" id="moon"></div>
+<div class="moon show" id="moon"></div>
 <canvas id="fireworks" width="1486" height="731"></canvas>
-<div class="hearts" id="hearts"></div>
+<div class="hearts" id="hearts"><div class="heart" style="left: 94.9235%; animation-duration: 12.3061s; font-size: 1.63411rem;">❤️</div><div class="heart" style="left: 14.5734%; animation-duration: 10.3057s; font-size: 1.05883rem;">🥺</div><div class="heart" style="left: 94.0431%; animation-duration: 7.88422s; font-size: 1.49529rem;">✨</div><div class="heart" style="left: 30.2508%; animation-duration: 12.8192s; font-size: 1.48916rem;">💕</div><div class="heart" style="left: 92.82%; animation-duration: 10.707s; font-size: 0.956088rem;">✨</div><div class="heart" style="left: 65.7507%; animation-duration: 8.52235s; font-size: 0.977101rem;">❤️</div><div class="heart" style="left: 80.5871%; animation-duration: 12.0728s; font-size: 1.30756rem;">🥺</div><div class="heart" style="left: 39.204%; animation-duration: 10.8012s; font-size: 1.08603rem;">✨</div><div class="heart" style="left: 17.8119%; animation-duration: 9.92345s; font-size: 1.19515rem;">❤️</div><div class="heart" style="left: 88.1905%; animation-duration: 10.9876s; font-size: 1.43654rem;">💕</div><div class="heart" style="left: 95.0915%; animation-duration: 8.46221s; font-size: 1.39142rem;">🥺</div><div class="heart" style="left: 76.6987%; animation-duration: 8.41676s; font-size: 1.22905rem;">❤️</div><div class="heart" style="left: 6.18529%; animation-duration: 7.26634s; font-size: 1.2463rem;">✨</div><div class="heart" style="left: 13.0134%; animation-duration: 11.445s; font-size: 1.28016rem;">💕</div></div>
 
-<div id="intro">
+<div id="intro" style="opacity: 0; display: none;">
   <h1>✨ toca la pantalla para empezar ✨</h1>
 </div>
 <div id="skip-hint"></div>
 
-<div id="message">
+<div id="milestone" class="">
+  <h1>🎉 Felices 20 🎉</h1>
+</div>
+
+<div id="message" class="show">
   <div class="card">
     <h2>Feliz cumpleaños, mi niña hermosa ❤️</h2>
     <p>Este es mi primer cumpleaños contigo y espero que sea el primero 
@@ -352,13 +377,21 @@ function startShow(){
     }
   }, 550);
 
-  // mensaje final tras el show
+  // mensaje "Felices 20" tras el show
   setTimeout(()=>{
-    document.getElementById('message').classList.add('show');
-    spawnHearts();
-    // fuegos ocasionales de fondo, más suaves
-    setInterval(()=>{ if(Math.random()<0.5) launchRocket(); }, 2600);
+    document.getElementById('milestone').classList.add('show');
   }, totalLaunches*550 + 1600);
+
+  // ocultar "Felices 20" y mostrar el mensaje final
+  setTimeout(()=>{
+    document.getElementById('milestone').classList.remove('show');
+    setTimeout(()=>{
+      document.getElementById('message').classList.add('show');
+      spawnHearts();
+      // fuegos ocasionales de fondo, más suaves
+      setInterval(()=>{ if(Math.random()<0.5) launchRocket(); }, 2600);
+    }, 1200);
+  }, totalLaunches*550 + 4200);
 }
 
 window.addEventListener('resize', resize);
